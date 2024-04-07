@@ -60,7 +60,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 ## Documentation
-- [https://restless-sunset-209556.postman.co/documentation/28121611-e1a8c088-0cde-46f0-8ffe-560fbd93f3b4/publish?workspaceId=cabc6f79-455b-4f47-849c-a8361675b3b2]
+- Documentation- https://documenter.postman.com/preview/28121611-e1a8c088-0cde-46f0-8ffe-560fbd93f3b4?environment=&versionTag=latest&apiName=CURRENT&version=latest&documentationLayout=classic-double-column&documentationTheme=light&logo=https%3A%2F%2Fres.cloudinary.com%2Fpostman%2Fimage%2Fupload%2Ft_team_logo%2Fv1%2Fteam%2Fanonymous_team&logoDark=https%3A%2F%2Fres.cloudinary.com%2Fpostman%2Fimage%2Fupload%2Ft_team_logo%2Fv1%2Fteam%2Fanonymous_team&right-sidebar=303030&top-bar=FFFFFF&highlight=FF6C37&right-sidebar-dark=303030&top-bar-dark=212121&highlight-dark=FF6C37
 
 
 ## Support
