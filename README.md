@@ -59,10 +59,13 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## Documentation
+- [https://restless-sunset-209556.postman.co/documentation/28121611-e1a8c088-0cde-46f0-8ffe-560fbd93f3b4/publish?workspaceId=cabc6f79-455b-4f47-849c-a8361675b3b2]
+
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Nest is an MIT-licensed open-source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
