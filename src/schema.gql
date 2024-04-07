@@ -1,0 +1,45 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Auth {
+  accessToken: String!
+  createdAt: String!
+  email: String!
+  refreshToken: String!
+  updatedAt: String!
+}
+
+type Challenge {
+  challenge: String!
+}
+
+input CreateUser {
+  email: String!
+  password: String!
+}
+
+input Login {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createUser(createUser: CreateUser!): User!
+  logIn(logIn: Login!): Auth!
+  logInWithBiometrics(id: String!): Challenge!
+}
+
+type Query {
+  getUser(id: String!): User!
+  register(publicKey: String!): Auth!
+}
+
+type User {
+  biomertricKey: String!
+  createdAt: String!
+  email: String!
+  id: String!
+  password: String!
+  updatedAt: String!
+}
