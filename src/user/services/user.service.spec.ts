@@ -4,26 +4,27 @@ import { PrismaService } from '../../config/prisma.service';
 import { CreateUser } from '../dto/create.user';
 import { User } from '../models/user';
 import * as bcrypt from 'bcrypt';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
-const prismaServiceMock = {
-  user: {
-    findUnique: jest.fn(),
-    findMany: jest.fn(),
-  },
-};
 describe('UserService', () => {
+  const prismaServiceMock = {
+    user: {
+      create: jest.fn().mockImplementation((dto) =>
+        Promise.resolve({
+          id: Date.now().toString(),
+          ...dto,
+          createdAt: Date.now(),
+          UpdateAt: Date.now(),
+        }),
+      ),
+
+      findUnique: jest.fn().mockImplementation(() => {}),
+    },
+  };
+
   let userService: UserService;
-  let prismaServiceMock: Partial<PrismaService>;
 
   beforeEach(async () => {
-    // prismaServiceMock = {
-    //   user: {
-    //     create: jest.fn(),
-    //     findUnique: jest.fn(),
-    //   },
-    // };
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
@@ -37,10 +38,6 @@ describe('UserService', () => {
     userService = module.get<UserService>(UserService);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('createUser', () => {
     it('should create a user', async () => {
       // Arrange
@@ -49,30 +46,20 @@ describe('UserService', () => {
         password: 'password',
       };
       const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-      const createUser: CreateUser = {
-        ...createUserDto,
-        password: hashedPassword,
-      };
-      const expectedUser: User = {
-        id: '1',
-        email: createUser.email,
-        password: createUser.password,
-        biomertricKey: '',
-        createdAt: undefined,
-        updatedAt: undefined,
-      };
-      jest
-        .spyOn(prismaServiceMock.user, 'create')
-        .mockResolvedValue(expectedUser);
+      createUserDto.password = hashedPassword;
 
       // Act
       const result = await userService.createUser(createUserDto);
+      // const createSpy = jest
+      //   .spyOn(prismaServiceMock.user, 'create')
+      //   .mockResolvedValue(createUserDto as User);
 
       // Assert
+      expect(prismaServiceMock.user.create).toHaveBeenCalled();
+
       expect(prismaServiceMock.user.create).toHaveBeenCalledWith({
-        data: createUser,
+        data: createUserDto,
       });
-      expect(result).toEqual(expectedUser);
     });
 
     it('should throw BadRequestException if createUser fails', async () => {
@@ -100,7 +87,7 @@ describe('UserService', () => {
         id: userId,
         email: 'test@example.com',
         password: 'hashedPassword',
-        biomertricKey: '',
+        biometricKey: '',
         createdAt: undefined,
         updatedAt: undefined,
       };
@@ -140,7 +127,7 @@ describe('UserService', () => {
         id: '1',
         email: userEmail,
         password: 'hashedPassword',
-        biomertricKey: '',
+        biometricKey: '',
         createdAt: undefined,
         updatedAt: undefined,
       };

@@ -67,7 +67,7 @@ export class AuthenticationService {
           email: registration.username,
         },
         data: {
-          biomertricKey: key,
+          biometricKey: key,
         },
       });
     } catch (error) {
@@ -151,14 +151,13 @@ export class AuthenticationService {
       throw new UnauthorizedException('Password or email incorrect');
     }
     const token = await this.generateToken(user);
-    delete user.biomertricKey;
+    delete user.biometricKey;
     delete user.password;
     const userData = {
       ...user,
       accessToken: token.accessToken,
       refreshToken: token.refreshToken,
     };
-    console.log(token);
 
     return userData;
   }

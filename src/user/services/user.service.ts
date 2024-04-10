@@ -32,7 +32,7 @@ export class UserService {
         this.roundsOfHashing,
       );
       createUser.password = hashedPassword;
-      console.log(createUser);
+
       return await this.prismaService.user.create({ data: createUser });
     } catch (error) {
       this.logger.error(error);

@@ -15,11 +15,11 @@ export class User implements UserClient {
 
   @Field(() => String)
   @Optional()
-  biomertricKey: string;
+  biometricKey: string;
 
-  @Field(() => String)
+  @Field(() => Date)
   createdAt: Date;
 
-  @Field(() => String)
+  @Field(() => Date)
   updatedAt: Date;
 }
