@@ -3,10 +3,10 @@ import {
   BadRequestException,
   Catch,
   ExceptionFilter,
-  HttpException
-} from "@nestjs/common";
-import { Response } from "express";
-import { Logger } from "@nestjs/common";
+  HttpException,
+} from '@nestjs/common';
+import { Response } from 'express';
+import { Logger } from '@nestjs/common';
 
 const AppLogger = new Logger();
 
@@ -20,30 +20,30 @@ export class ErrorResponse implements ExceptionFilter {
 
     const status: any = exception.getStatus();
 
-    console.log('message: ', exception.getResponse())
+    console.log('message: ', exception.getResponse());
 
     AppLogger.error(
       `(LOGS) Error - ${
         response.message
-      } statusCode : ${exception.getStatus()}`
+      } statusCode : ${exception.getStatus()}`,
     );
-    
+
     if (response?.status) {
       if (Array.isArray(exception.message)) {
         return response.status(status).json({
-          status: "error",
-          message: "Bad input data",
+          status: 'error',
+          message: 'Bad input data',
           error: exception.message,
         });
       }
 
       return response.status(status).json({
-        status: "error",
+        status: 'error',
         message: exception.message,
-        error: (exception.getResponse() as any)?.error
+        error: (exception.getResponse() as any)?.error,
       });
     }
 
-    return exception
+    return exception;
   }
 }

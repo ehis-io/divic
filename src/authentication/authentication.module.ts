@@ -6,13 +6,15 @@ import { UserModule } from 'src/user/user.module';
 import { AuthenticationService } from './services/authentication.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { jwtConstants } from './constant';
+import { jwtConstants } from './interface/constant';
 import { CacheModule } from '@nestjs/cache-manager';
 import { PrismaService } from 'src/config/prisma.service';
 import { AuthenticationResolver } from './resolver/authentication.resolver';
 import { PassportModule } from '@nestjs/passport';
 
 import { HttpModule } from '@nestjs/axios';
+import { LocalStrategy } from './strategy/local.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
@@ -20,9 +22,8 @@ import { HttpModule } from '@nestjs/axios';
     ConfigModule,
     CacheModule.register(),
     HttpModule.register({}),
-    PassportModule.register({ defaultStrategy: 'local' }),
+    PassportModule,
     JwtModule.register({
-      global: true,
       secret: jwtConstants.secret,
       signOptions: {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
@@ -32,11 +33,13 @@ import { HttpModule } from '@nestjs/axios';
 
   providers: [
     AuthenticationService,
+    LocalStrategy,
     UserService,
     PrismaService,
     AuthenticationResolver,
+    JwtStrategy,
   ],
 
-  exports: [PassportModule],
+  // exports: [PassportModule],
 })
 export class AuthenticationModule {}

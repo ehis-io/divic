@@ -2,12 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auth {
-  accessToken: String!
-  createdAt: String!
+input BiometricDto {
+  challenge: String!
   email: String!
-  refreshToken: String!
-  updatedAt: String!
+  signedChallenge: String!
 }
 
 type Challenge {
@@ -29,15 +27,32 @@ input Login {
   password: String!
 }
 
+type LoginResponse {
+  accessToken: String!
+  biometricKey: String!
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  refreshToken: String!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   createUser(createUser: CreateUser!): User!
-  logIn(logIn: Login!): Auth!
-  logInWithBiometrics(id: String!): Challenge!
+  generateChallenge: Challenge!
+  logIn(logIn: Login!): LoginResponse!
+  logInWithBiometric(biometricDto: BiometricDto!): LoginResponse!
+  registerUser(registerBiometric: RegisterBiometric!): Challenge!
 }
 
 type Query {
   getUser(id: String!): User!
-  register(publicKey: String!): Auth!
+}
+
+input RegisterBiometric {
+  attestation: String!
+  challenge: String!
+  publicKey: String!
 }
 
 type User {

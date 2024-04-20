@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthenticationService } from './authentication.service';
 import { UserService } from '../../user/services/user.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../config/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { prismaServiceMock } from 'src/interfaces/prisma.service.mock';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;
@@ -18,7 +19,12 @@ describe('AuthenticationService', () => {
         AuthenticationService,
         UserService,
         JwtService,
-        PrismaService,
+        { provide: PrismaService, useValue: prismaServiceMock },
+      ],
+      imports: [
+        JwtModule.register({
+          secretOrPrivateKey: 'Secret key',
+        }),
       ],
     }).compile();
 
@@ -36,7 +42,7 @@ describe('AuthenticationService', () => {
           return {
             id: '123',
             email: 'user@example.com',
-            biomertricKey: '',
+            biometricKey: '',
             password: await bcrypt.hash('password', 10), // Hash the password
             createdAt: new Date('2023-10-14T22:11:20+0000'),
             updatedAt: new Date('2023-10-14T22:11:20+0000'),

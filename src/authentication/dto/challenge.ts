@@ -4,4 +4,7 @@ import { Field, InputType } from '@nestjs/graphql';
 export class Challenge {
   @Field()
   challenge: string;
+
+  @Field()
+  userId: string;
 }

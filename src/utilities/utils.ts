@@ -14,6 +14,6 @@ export const makeUUID = (value: string) => {
 };
 
 export function generateChallenge(value?: number): string {
-  if (value == null) throw new BadRequestException();
+  // if (value == null) throw new BadRequestException();
   return crypto.randomBytes(32).toString('base64');
 }

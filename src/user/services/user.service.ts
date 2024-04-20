@@ -33,7 +33,9 @@ export class UserService {
       );
       createUser.password = hashedPassword;
 
-      return await this.prismaService.user.create({ data: createUser });
+      const user = await this.prismaService.user.create({ data: createUser });
+      delete user.password;
+      return user;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(

@@ -1,18 +1,11 @@
 import { Optional } from '@nestjs/common';
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-
+import { LoginResponse } from './login.response';
 
 @ObjectType()
 export class Auth {
   @Field(() => String)
   email: string;
-
-  @Field(() => String)
-  accessToken: string;
-
-  @Field(() => String)
-  @Optional()
-  refreshToken: string;
 
   @Field(() => String)
   createdAt: Date;

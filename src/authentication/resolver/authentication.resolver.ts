@@ -7,32 +7,35 @@ import { UseGuards } from '@nestjs/common';
 import { GqlJWTAuthGuard } from '../guards/gql.jwt.auth.guard';
 import { GetUser } from '../decorator/user.decorator';
 import { Challenge } from '../models/biometric';
+import { LoginResponse } from '../models/login.response';
+import { RegisterBiometric } from '../dto/boimetric.data';
+import { BiometricDto } from '../dto/BiometricDto';
+import { SuccessResponse } from 'src/utilities/successResponse';
 
-@Resolver(() => Auth)
+@Resolver()
 export class AuthenticationResolver {
   constructor(private readonly authenticationService: AuthenticationService) {}
-  @Mutation(() => Auth)
-  async logIn(@Args('logIn') login: Login): Promise<{}> {
-    return this.authenticationService.loginWithPassword(login);
+  @Mutation(() => LoginResponse)
+  async logIn(@Args('logIn') login: Login) {
+    return await this.authenticationService.loginWithPassword(login);
   }
-
   @Mutation(() => Challenge)
   @UseGuards(GqlJWTAuthGuard)
-  async logInWithBiometrics(
-    @Args('id') id: string,
+  async generateChallenge(@GetUser() user: User) {
+    return await this.authenticationService.getChallenge(user);
+  }
+  @Mutation(() => Challenge)
+  @UseGuards(GqlJWTAuthGuard)
+  async registerUser(
+    @Args('registerBiometric') registerBiometric: RegisterBiometric,
     @GetUser() user: User,
-  ): Promise<{}> {
-    return this.authenticationService.getChallenge();
+  ) {
+    return this.authenticationService.register(user, registerBiometric);
   }
 
-  @Query(() => Auth)
-  @UseGuards(GqlJWTAuthGuard)
-  async register(
-    @Args('publicKey') publicKey: string,
-    @GetUser()
-    user: User,
-  ) {
-    return this.authenticationService.register(publicKey, user);
+  @Mutation(() => LoginResponse)
+  async logInWithBiometric(@Args('biometricDto') biometricDto: BiometricDto) {
+    return this.authenticationService.biometricLogin(biometricDto);
   }
 
   // @Mutation(() => Auth)

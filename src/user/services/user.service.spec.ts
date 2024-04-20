@@ -5,23 +5,9 @@ import { CreateUser } from '../dto/create.user';
 import { User } from '../models/user';
 import * as bcrypt from 'bcrypt';
 import { BadRequestException } from '@nestjs/common';
+import { prismaServiceMock } from 'src/interfaces/prisma.service.mock';
 
 describe('UserService', () => {
-  const prismaServiceMock = {
-    user: {
-      create: jest.fn().mockImplementation((dto) =>
-        Promise.resolve({
-          id: Date.now().toString(),
-          ...dto,
-          createdAt: Date.now(),
-          UpdateAt: Date.now(),
-        }),
-      ),
-
-      findUnique: jest.fn().mockImplementation(() => {}),
-    },
-  };
-
   let userService: UserService;
 
   beforeEach(async () => {

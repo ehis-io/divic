@@ -5,9 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaModule } from './config/prisma.module';
+
 import { GraphQLModule } from '@nestjs/graphql';
-import { GraphQLError } from 'graphql';
+
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ENV } from './interfaces/env.interface';
 import { join } from 'path';
@@ -16,13 +16,10 @@ const ENV_VARIABLES = process.env as any as ENV;
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      formatError: (errors: GraphQLError) => {
-        const graphQLFormattedError: any = {
-          message: errors?.message || errors.originalError,
-          ...errors?.extensions,
-        };
-        return graphQLFormattedError;
-      },
+      formatError: (err) => ({
+        message: err.message,
+        status: err.extensions.code,
+      }),
       playground: ENV_VARIABLES.NODE_ENV !== 'production',
       driver: ApolloDriver,
 
