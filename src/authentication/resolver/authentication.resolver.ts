@@ -38,8 +38,5 @@ export class AuthenticationResolver {
     return this.authenticationService.biometricLogin(biometricDto);
   }
 
-  // @Mutation(() => Auth)
-  // async passwordlessLogin(@Args('') login): Promise<{}> {
-  //   return this.authenticationService.loginWithPassword(login);
-  // }
+  
 }
